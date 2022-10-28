@@ -1,4 +1,3 @@
 --generic=file,out,5,C:\Users\Nepatrop\Desktop\autopilot\data\speedData.txt,dataOutSpeed
 --generic=file,out,5,C:\Users\Nepatrop\Desktop\autopilot\data\degData.txt,dataOutDeg
 --generic=file,out,4,C:\Users\Nepatrop\Desktop\autopilot\data\altitudeData.txt,dataOutAltitude
-fgfs --httpd=5400
