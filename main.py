@@ -6,11 +6,11 @@ from threading import Thread
 
 maxSpeed = float(input('Введите необходимую скорость: '))
 mainDeg = GetData.giveDeg()
+takeOff = True
 pitch = 0
 
 def AutoThrust():
     speed = GetData.giveSpeed()
-    takeOff = True
     while takeOff:
         if speed < maxSpeed:
             speed = GetData.giveSpeed()
@@ -23,7 +23,6 @@ def AutoThrust():
 
 def AutoDeg():
     deg = GetData.giveDeg()
-    takeOff = True
     while takeOff:
         if deg == mainDeg:
             deg = GetData.giveDeg()
@@ -41,7 +40,6 @@ def AutoAltitude():
     global pitch
     realAltitude = GetData.giveAltitude()
     takeoffAltitude = realAltitude + 1000
-    takeOff = True
     while takeOff:
         if (realAltitude <= takeoffAltitude) and (pitch <= 15):
             keyboard.send("Down")
