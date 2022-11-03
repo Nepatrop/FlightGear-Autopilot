@@ -8,7 +8,7 @@
     <name>Indicated speed</name>
     <type>float</type>
     <format>%f</format>
-    <node>/position/altitude-ft</node>
+    <node>/orientation/roll-deg</node>
    </chunk>
   </output>
  </generic>
