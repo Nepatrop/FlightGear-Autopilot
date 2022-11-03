@@ -2,12 +2,12 @@ import time
 import GetData
 import keyboard
 from threading import Thread
+from main import maxAltitude
 
 takeOff = True
 vOne = 40
 pitch = 0
 groundLevel = GetData.giveAltitude()
-maxAltitude = float(input('Введите необходимую высоту: '))
 
 def PitchSet(newPitch):
     global pitch
@@ -21,11 +21,10 @@ def PitchSet(newPitch):
             pitch -= 5
             time.sleep(0.2)
 
-
 while takeOff:
     speed = GetData.giveSpeed()
     if speed < vOne:
-        time.sleep(2)
+        time.sleep(1)
         continue
 
     altitude = GetData.giveAltitude()
@@ -35,8 +34,6 @@ while takeOff:
         print(altitude)
         if speed < vOne + 20:
             PitchSet(5)
-        else:
-            continue
 
     while altitude < maxAltitude:
         PitchSet(5)
