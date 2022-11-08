@@ -1,13 +1,12 @@
 import time
-import numpy as np
-import keyboard
 import GetData
+import keyboard
 from threading import Thread
 
-maxSpeed = float(input('Введите необходимую скорость: '))
-mainDeg = GetData.giveDeg()
 takeOff = True
-pitch = 0
+maxSpeed = float(input('Введите необходимую скорость: '))
+maxAltitude = float(input('Введите необходимую высоту: '))
+mainDeg = GetData.giveDeg()
 
 def AutoThrust():
     speed = GetData.giveSpeed()
@@ -15,11 +14,11 @@ def AutoThrust():
         if speed < maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageUp")
-            time.sleep(0.1)
+            time.sleep(0.05)
         if speed > maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageDown")
-            time.sleep(0.1)
+            time.sleep(0.05)
 
 def AutoDeg():
     deg = GetData.giveDeg()
@@ -35,26 +34,6 @@ def AutoDeg():
             deg = GetData.giveDeg()
             keyboard.send("Enter")
             time.sleep(0.1)
-
-def AutoAltitude():
-    global pitch
-    realAltitude = GetData.giveAltitude()
-    takeoffAltitude = realAltitude + 1000
-    while takeOff:
-        if (realAltitude <= takeoffAltitude) and (pitch <= 15):
-            keyboard.send("Down")
-            pitch = pitch + 5
-            time.sleep(0.25)
-        if takeoffAltitude - realAltitude <= 100:
-            while pitch != 10:
-                keyboard.send("Up")
-                pitch = pitch - 5
-                time.sleep(0.25)
-        if takeoffAltitude - realAltitude <= 20:
-            while pitch != 5:
-                keyboard.send("Up")
-                pitch = pitch - 5
-                time.sleep(0.25)
 
 Thread(target=AutoThrust).start()
 Thread(target=AutoAltitude).start()
