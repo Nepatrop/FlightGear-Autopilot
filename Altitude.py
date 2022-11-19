@@ -1,11 +1,9 @@
 import time
 import GetData
 import keyboard
-from threading import Thread
-##from main import maxAltitude
-##from main import maxSpeed
+from main import maxSpeed
+from main import maxAltitude
 
-maxAltitude = 3000
 takeOff = True
 vOne = 60
 groundLevel = GetData.giveAltitude()
