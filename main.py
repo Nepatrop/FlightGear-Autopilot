@@ -112,6 +112,5 @@ def Roll():
             time.sleep(0.2)
 
 Thread(target=AutoThrust).start()
-Thread(target=AutoDeg).start()
 Thread(target=Altitude).start()
 Thread(target=Roll).start()
