@@ -7,7 +7,7 @@ takeOff = True
 maxSpeed = float(input('Введите необходимую скорость: '))
 maxAltitude = float(input('Введите необходимую высоту: '))
 mainDeg = GetData.giveDeg()
-vOne = 60
+vOne = 55
 groundLevel = GetData.giveAltitude()
 maxPitch = 10
 minPitch = -10
@@ -20,11 +20,11 @@ def AutoThrust():
         if speed < maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageUp")
-            time.sleep(0.05)
+            time.sleep(0.2)
         if speed > maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageDown")
-            time.sleep(0.05)
+            time.sleep(0.2)
 
 def AutoDeg():
     deg = GetData.giveDeg()
@@ -32,14 +32,14 @@ def AutoDeg():
         if deg == mainDeg:
             deg = GetData.giveDeg()
             time.sleep(1)
-        if (deg - mainDeg) > 1:
+        if (deg - mainDeg) > 2:
             deg = GetData.giveDeg()
             keyboard.send("0")
-            time.sleep(0.2)
-        if (deg - mainDeg) < 1:
+            time.sleep(0.1)
+        if (deg - mainDeg) < -2:
             deg = GetData.giveDeg()
             keyboard.send("Enter")
-            time.sleep(0.2)
+            time.sleep(0.1)
 
 def PitchPlus():
     truePitch = GetData.givePitch()
@@ -86,31 +86,32 @@ def Altitude():
             continue
 
         altitude = GetData.giveAltitude()
-        while altitude < (groundLevel + 2000):
+        while altitude < (groundLevel + 1000):
             speed = GetData.giveSpeed()
             if speed > vOne:
                 needVerticalSpeed = 10
                 VerSpeedSet(needVerticalSpeed)
+            else:
+                needVerticalSpeed = 5
+                VerSpeedSet(needVerticalSpeed)
+
+        while altitude < maxAltitude:
+            PitchSet(5)
+
+
 
 def Roll():
     while takeOff:
         roll = GetData.giveRoll()
-        if roll > 1:
+        if roll > 2:
             keyboard.send("Left")
-            time.sleep(0.2)
+            time.sleep(0.1)
 
-        if roll < -1:
+        if roll < -2:
             keyboard.send("Right")
-            time.sleep(0.2)
-
-        deg = GetData.giveDeg()
-        if (deg - mainDeg) > 1:
-            keyboard.send("Left")
-            time.sleep(0.2)
-        if (deg - mainDeg) < -1:
-            keyboard.send("Right")
-            time.sleep(0.2)
+            time.sleep(0.1)
 
 Thread(target=AutoThrust).start()
+Thread(target=AutoDeg).start()
 Thread(target=Altitude).start()
 Thread(target=Roll).start()
