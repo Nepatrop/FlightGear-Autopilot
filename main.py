@@ -9,8 +9,6 @@ maxAltitude = float(input('Введите необходимую высоту: '
 mainDeg = GetData.giveDeg()
 vOne = 55
 groundLevel = GetData.giveAltitude()
-maxPitch = 10
-minPitch = -10
 maxRoll = 20
 minRoll = -20
 
