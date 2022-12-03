@@ -9,8 +9,9 @@ maxAltitude = float(input('Введите необходимую высоту: '
 mainDeg = GetData.giveDeg()
 vOne = 55
 groundLevel = GetData.giveAltitude()
-maxRoll = 20
-minRoll = -20
+maxPitch = 15
+minPitch = -15
+
 
 def AutoThrust():
     speed = GetData.giveSpeed()
@@ -18,11 +19,11 @@ def AutoThrust():
         if speed < maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageUp")
-            time.sleep(0.2)
+
         if speed > maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageDown")
-            time.sleep(0.2)
+
 
 def AutoDeg():
     deg = GetData.giveDeg()
@@ -39,17 +40,15 @@ def AutoDeg():
             keyboard.send("Enter")
             time.sleep(0.1)
 
+
 def PitchPlus():
     truePitch = GetData.givePitch()
-    if (truePitch >= 8) and (truePitch <= 10):
+    if truePitch <= maxPitch:
+        keyboard.send("Down")
         time.sleep(0.2)
     else:
-        if truePitch <= maxPitch:
-            keyboard.send("Down")
-            time.sleep(0.2)
-        else:
-            keyboard.send("Up")
-            time.sleep(0.2)
+        keyboard.send("Up")
+
 
 def PitchMinus():
     truePitch = GetData.givePitch()
@@ -58,7 +57,7 @@ def PitchMinus():
         time.sleep(0.2)
     else:
         keyboard.send("Down")
-        time.sleep(0.2)
+
 
 def PitchSet(needPitch):
     truePitch = GetData.givePitch()
@@ -68,6 +67,7 @@ def PitchSet(needPitch):
         if truePitch > needPitch:
             PitchMinus()
 
+
 def VerSpeedSet(needVSpeed):
     verticalSpeed = GetData.giveVerticalSpeed()
     while verticalSpeed != needVSpeed:
@@ -75,6 +75,7 @@ def VerSpeedSet(needVSpeed):
             PitchPlus()
         if verticalSpeed > needVSpeed:
             PitchMinus()
+
 
 def Altitude():
     while takeOff:
@@ -97,17 +98,20 @@ def Altitude():
             PitchSet(5)
 
 
-
 def Roll():
+    maxRoll = 0
     while takeOff:
         roll = GetData.giveRoll()
-        if roll > 2:
+        if (roll > 2) and (maxRoll >= -15):
             keyboard.send("Left")
-            time.sleep(0.1)
+            time.sleep(0.2)
+            maxRoll = maxRoll - 5
 
-        if roll < -2:
+        if (roll < -2) and (maxRoll <= 15):
             keyboard.send("Right")
-            time.sleep(0.1)
+            time.sleep(0.2)
+            maxRoll = maxRoll + 5
+
 
 Thread(target=AutoThrust).start()
 Thread(target=AutoDeg).start()
