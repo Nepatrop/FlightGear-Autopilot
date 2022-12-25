@@ -2,8 +2,8 @@ import time
 import GetData
 import keyboard
 from threading import Thread
+from interface import takeOff
 
-takeOff = True
 maxSpeed = float(input('Введите необходимую скорость: '))
 maxAltitude = float(input('Введите необходимую высоту: '))
 mainDeg = GetData.giveDeg()
