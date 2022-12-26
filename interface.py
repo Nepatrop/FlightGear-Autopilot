@@ -1,6 +1,10 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+import time
 
-takeOff = False
+from PyQt5 import QtCore, QtGui, QtWidgets
+from threading import Thread
+import GetData
+
+print("GO")
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -8,34 +12,40 @@ class Ui_MainWindow(object):
         MainWindow.resize(600, 400)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
         self.Speed = QtWidgets.QLabel(self.centralwidget)
-        self.Speed.setGeometry(QtCore.QRect(71, 31, 59, 16))
+        self.Speed.setGeometry(QtCore.QRect(42, 30, 59, 16))
         self.Speed.setObjectName("Speed")
         self.Alt = QtWidgets.QLabel(self.centralwidget)
-        self.Alt.setGeometry(QtCore.QRect(196, 31, 47, 16))
+        self.Alt.setGeometry(QtCore.QRect(167, 30, 47, 16))
         self.Alt.setObjectName("Alt")
         self.SpeedInfo = QtWidgets.QLabel(self.centralwidget)
-        self.SpeedInfo.setGeometry(QtCore.QRect(137, 31, 61, 16))
-        self.SpeedInfo.setText("")
+        self.SpeedInfo.setGeometry(QtCore.QRect(108, 30, 61, 16))
+        speed = GetData.giveSpeed()
+        self.SpeedInfo.setText(str(speed))
         self.SpeedInfo.setObjectName("SpeedInfo")
         self.AltInfo = QtWidgets.QLabel(self.centralwidget)
-        self.AltInfo.setGeometry(QtCore.QRect(245, 31, 71, 16))
-        self.AltInfo.setText("")
+        self.AltInfo.setGeometry(QtCore.QRect(216, 30, 71, 16))
+        altitude = GetData.giveAltitude()
+        self.AltInfo.setText(str(altitude))
         self.AltInfo.setObjectName("AltInfo")
         self.Kurs = QtWidgets.QLabel(self.centralwidget)
-        self.Kurs.setGeometry(QtCore.QRect(314, 31, 31, 16))
+        self.Kurs.setGeometry(QtCore.QRect(285, 30, 31, 16))
         self.Kurs.setObjectName("Kurs")
         self.VSpeedInfo = QtWidgets.QLabel(self.centralwidget)
-        self.VSpeedInfo.setGeometry(QtCore.QRect(528, 31, 91, 16))
-        self.VSpeedInfo.setText("")
+        self.VSpeedInfo.setGeometry(QtCore.QRect(489, 30, 71, 16))
+        vSpeed = GetData.giveVerticalSpeed()
+        self.VSpeedInfo.setText(str(vSpeed))
         self.VSpeedInfo.setObjectName("VSpeedInfo")
         self.VSpeed = QtWidgets.QLabel(self.centralwidget)
-        self.VSpeed.setGeometry(QtCore.QRect(433, 31, 88, 16))
+        self.VSpeed.setGeometry(QtCore.QRect(404, 30, 88, 16))
         self.VSpeed.setObjectName("VSpeed")
         self.KursInfo = QtWidgets.QLabel(self.centralwidget)
-        self.KursInfo.setGeometry(QtCore.QRect(349, 31, 81, 16))
-        self.KursInfo.setText("")
+        self.KursInfo.setGeometry(QtCore.QRect(320, 30, 81, 16))
+        deg = GetData.giveDeg()
+        self.KursInfo.setText(str(deg))
         self.KursInfo.setObjectName("KursInfo")
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(1, 120, 231, 31))
         font = QtGui.QFont()
@@ -48,20 +58,16 @@ class Ui_MainWindow(object):
         self.label.setFont(font)
         self.label.setStyleSheet("background-color: rgb(210, 210, 210);")
         self.label.setObjectName("label")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(480, 320, 110, 26))
-        self.pushButton.setStyleSheet("background-color: rgb(210, 210, 210);")
-        self.pushButton.setObjectName("pushButton")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(234, 120, 115, 31))
-        self.label_2.setStyleSheet("background-color: rgb(240, 240, 240);")
-        self.label_2.setText("")
-        self.label_2.setObjectName("label_2")
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(234, 155, 115, 31))
-        self.label_3.setStyleSheet("background-color: rgb(240, 240, 240);")
-        self.label_3.setText("")
-        self.label_3.setObjectName("label_3")
+
+        self.takeoffButton = QtWidgets.QPushButton(self.centralwidget)
+        self.button_is_checked = False
+        self.takeoffButton.setCheckable(True)
+        self.takeoffButton.clicked.connect(self.takeOffToggle)
+        self.takeoffButton.setChecked(self.button_is_checked)
+        self.takeoffButton.setGeometry(QtCore.QRect(480, 320, 110, 26))
+        self.takeoffButton.setStyleSheet("background-color: rgb(210, 210, 210);")
+        self.takeoffButton.setObjectName("takeoffButton")
+
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(1, 155, 231, 31))
         font = QtGui.QFont()
@@ -74,6 +80,14 @@ class Ui_MainWindow(object):
         self.label_4.setFont(font)
         self.label_4.setStyleSheet("background-color: rgb(210, 210, 210);")
         self.label_4.setObjectName("label_4")
+
+        self.textEditSpd = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEditSpd.setGeometry(QtCore.QRect(232, 120, 120, 31))
+        self.textEditSpd.setObjectName("lineSpeed")
+        self.textEditAlt = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEditAlt.setGeometry(QtCore.QRect(232, 155, 120, 31))
+        self.textEditAlt.setObjectName("lineAlt")
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 600, 26))
@@ -94,9 +108,44 @@ class Ui_MainWindow(object):
         self.Kurs.setText(_translate("MainWindow", "Курс:"))
         self.VSpeed.setText(_translate("MainWindow", "Вер. Скорость:"))
         self.label.setText(_translate("MainWindow", "Введите необходимую скорость:"))
-        self.pushButton.setText(_translate("MainWindow", "TakeOff"))
+        self.takeoffButton.setText(_translate("MainWindow", "TakeOff"))
         self.label_4.setText(_translate("MainWindow", "Введите необходимую высоту:"))
 
+    def takeOffToggle(self):
+        self.button_is_checked = self.takeoffButton.isChecked()
+        spdtext = self.textEditSpd.toPlainText()
+        alttext = self.textEditAlt.toPlainText()
+        global takeOff
+        takeOff = self.button_is_checked
+        print(takeOff, "func")
+        if takeOff:
+            print(takeOff, "func IN")
+            global maxSpeed
+            maxSpeed = spdtext
+            print(maxSpeed)
+            global maxAltitude
+            maxAltitude = alttext
+            print(maxAltitude)
+            Thread(target=getStarted).start()
+
+    @staticmethod
+    def getDataSpeed():
+        return maxSpeed
+
+    @staticmethod
+    def getDataAlt():
+        return maxAltitude
+
+def getStarted():
+    print("goT")
+    time.sleep(1)
+    import main
+
+def getMaxSpeed():
+    return Ui_MainWindow.getDataSpeed()
+
+def getMaxAlt():
+    return Ui_MainWindow.getDataAlt()
 
 if __name__ == "__main__":
     import sys

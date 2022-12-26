@@ -2,20 +2,24 @@ import time
 import GetData
 import keyboard
 from threading import Thread
-from interface import takeOff
+from interface import getMaxSpeed
+from interface import getMaxAlt
 
-maxSpeed = float(input('Введите необходимую скорость: '))
-maxAltitude = float(input('Введите необходимую высоту: '))
 mainDeg = GetData.giveDeg()
 vOne = 55
 groundLevel = GetData.giveAltitude()
 maxPitch = 15
 minPitch = -15
-
+takeOff = True
+print("main")
+print(takeOff, "main")
 
 def AutoThrust():
     speed = GetData.giveSpeed()
+    while not takeOff:
+        time.sleep(1)
     while takeOff:
+        maxSpeed = getMaxSpeed()
         if speed < maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageUp")
@@ -26,6 +30,8 @@ def AutoThrust():
 
 
 def AutoDeg():
+    while not takeOff:
+        time.sleep(1)
     deg = GetData.giveDeg()
     while takeOff:
         if deg == mainDeg:
@@ -78,7 +84,10 @@ def VerSpeedSet(needVSpeed):
 
 
 def Altitude():
+    while not takeOff:
+        time.sleep(1)
     while takeOff:
+        maxAltitude = getMaxAlt()
         speed = GetData.giveSpeed()
         if speed < vOne:
             time.sleep(1)
@@ -100,6 +109,8 @@ def Altitude():
 
 def Roll():
     maxRoll = 0
+    while not takeOff:
+        time.sleep(1)
     while takeOff:
         roll = GetData.giveRoll()
         if (roll > 2) and (maxRoll >= -15):
@@ -111,7 +122,6 @@ def Roll():
             keyboard.send("Right")
             time.sleep(0.2)
             maxRoll = maxRoll + 5
-
 
 Thread(target=AutoThrust).start()
 Thread(target=AutoDeg).start()
