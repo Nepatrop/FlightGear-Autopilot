@@ -17,19 +17,19 @@ def PitchPlus():
     else:
         if truePitch <= maxPitch:
             keyboard.send("Down")
-            time.sleep(0.2)
+            time.sleep(1)
         else:
             keyboard.send("Up")
-            time.sleep(0.2)
+            time.sleep(1)
 
 def PitchMinus():
     truePitch = GetData.givePitch()
     if truePitch >= minPitch:
         keyboard.send("Up")
-        time.sleep(0.2)
+        time.sleep(1)
     else:
         keyboard.send("Down")
-        time.sleep(0.2)
+        time.sleep(1)
 
 def PitchSet(needPitch):
     truePitch = GetData.givePitch()

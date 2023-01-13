@@ -14,34 +14,34 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
         self.Speed = QtWidgets.QLabel(self.centralwidget)
-        self.Speed.setGeometry(QtCore.QRect(42, 30, 59, 16))
+        self.Speed.setGeometry(QtCore.QRect(30, 30, 59, 16))
         self.Speed.setObjectName("Speed")
         self.Alt = QtWidgets.QLabel(self.centralwidget)
-        self.Alt.setGeometry(QtCore.QRect(167, 30, 47, 16))
+        self.Alt.setGeometry(QtCore.QRect(156, 30, 47, 16))
         self.Alt.setObjectName("Alt")
         self.SpeedInfo = QtWidgets.QLabel(self.centralwidget)
-        self.SpeedInfo.setGeometry(QtCore.QRect(108, 30, 61, 16))
+        self.SpeedInfo.setGeometry(QtCore.QRect(90, 30, 61, 16))
         speed = GetData.giveSpeed()
         self.SpeedInfo.setText(str(speed))
         self.SpeedInfo.setObjectName("SpeedInfo")
         self.AltInfo = QtWidgets.QLabel(self.centralwidget)
-        self.AltInfo.setGeometry(QtCore.QRect(216, 30, 71, 16))
+        self.AltInfo.setGeometry(QtCore.QRect(202, 30, 71, 16))
         altitude = GetData.giveAltitude()
         self.AltInfo.setText(str(altitude))
         self.AltInfo.setObjectName("AltInfo")
         self.Kurs = QtWidgets.QLabel(self.centralwidget)
-        self.Kurs.setGeometry(QtCore.QRect(285, 30, 31, 16))
+        self.Kurs.setGeometry(QtCore.QRect(280, 30, 31, 16))
         self.Kurs.setObjectName("Kurs")
         self.VSpeedInfo = QtWidgets.QLabel(self.centralwidget)
-        self.VSpeedInfo.setGeometry(QtCore.QRect(489, 30, 71, 16))
+        self.VSpeedInfo.setGeometry(QtCore.QRect(482, 30, 71, 16))
         vSpeed = GetData.giveVerticalSpeed()
         self.VSpeedInfo.setText(str(vSpeed))
         self.VSpeedInfo.setObjectName("VSpeedInfo")
         self.VSpeed = QtWidgets.QLabel(self.centralwidget)
-        self.VSpeed.setGeometry(QtCore.QRect(404, 30, 88, 16))
+        self.VSpeed.setGeometry(QtCore.QRect(392, 30, 88, 16))
         self.VSpeed.setObjectName("VSpeed")
         self.KursInfo = QtWidgets.QLabel(self.centralwidget)
-        self.KursInfo.setGeometry(QtCore.QRect(320, 30, 81, 16))
+        self.KursInfo.setGeometry(QtCore.QRect(315, 30, 81, 16))
         deg = GetData.giveDeg()
         self.KursInfo.setText(str(deg))
         self.KursInfo.setObjectName("KursInfo")
@@ -130,10 +130,12 @@ class Ui_MainWindow(object):
 
     @staticmethod
     def getDataSpeed():
+        maxSpeed = 100
         return maxSpeed
 
     @staticmethod
     def getDataAlt():
+        maxAltitude = 2000
         return maxAltitude
 
 def getStarted():
