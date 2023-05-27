@@ -1,5 +1,4 @@
 import time
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from threading import Thread
 import GetData
@@ -7,6 +6,7 @@ import GetData
 print("GO")
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(600, 400)
@@ -21,12 +21,12 @@ class Ui_MainWindow(object):
         self.Alt.setObjectName("Alt")
         self.SpeedInfo = QtWidgets.QLabel(self.centralwidget)
         self.SpeedInfo.setGeometry(QtCore.QRect(90, 30, 61, 16))
-        speed = GetData.giveSpeed()
+        speed = round(GetData.giveSpeed(), 2)
         self.SpeedInfo.setText(str(speed))
         self.SpeedInfo.setObjectName("SpeedInfo")
         self.AltInfo = QtWidgets.QLabel(self.centralwidget)
         self.AltInfo.setGeometry(QtCore.QRect(202, 30, 71, 16))
-        altitude = GetData.giveAltitude()
+        altitude = round(GetData.giveAltitude(), 2)
         self.AltInfo.setText(str(altitude))
         self.AltInfo.setObjectName("AltInfo")
         self.Kurs = QtWidgets.QLabel(self.centralwidget)
@@ -34,7 +34,7 @@ class Ui_MainWindow(object):
         self.Kurs.setObjectName("Kurs")
         self.VSpeedInfo = QtWidgets.QLabel(self.centralwidget)
         self.VSpeedInfo.setGeometry(QtCore.QRect(482, 30, 71, 16))
-        vSpeed = GetData.giveVerticalSpeed()
+        vSpeed = round(GetData.giveVerticalSpeed(), 2)
         self.VSpeedInfo.setText(str(vSpeed))
         self.VSpeedInfo.setObjectName("VSpeedInfo")
         self.VSpeed = QtWidgets.QLabel(self.centralwidget)
@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.VSpeed.setObjectName("VSpeed")
         self.KursInfo = QtWidgets.QLabel(self.centralwidget)
         self.KursInfo.setGeometry(QtCore.QRect(315, 30, 81, 16))
-        deg = GetData.giveDeg()
+        deg = round(GetData.giveDeg(), 2)
         self.KursInfo.setText(str(deg))
         self.KursInfo.setObjectName("KursInfo")
 
@@ -113,41 +113,21 @@ class Ui_MainWindow(object):
 
     def takeOffToggle(self):
         self.button_is_checked = self.takeoffButton.isChecked()
-        spdtext = self.textEditSpd.toPlainText()
-        alttext = self.textEditAlt.toPlainText()
-        global takeOff
-        takeOff = self.button_is_checked
-        print(takeOff, "func")
-        if takeOff:
-            print(takeOff, "func IN")
-            global maxSpeed
-            maxSpeed = spdtext
-            print(maxSpeed)
-            global maxAltitude
-            maxAltitude = alttext
-            print(maxAltitude)
-            Thread(target=getStarted).start()
-
-    @staticmethod
-    def getDataSpeed():
-        maxSpeed = 100
-        return maxSpeed
-
-    @staticmethod
-    def getDataAlt():
-        maxAltitude = 2000
-        return maxAltitude
-
+        self.takeOff = self.button_is_checked
+        print(self.takeOff, "func")
+        if self.takeOff:
+            import connector
+            connector.takeOffList.append(True)
+            connector.speedList.append(float(self.textEditSpd.toPlainText()))
+            connector.altList.append(float(self.textEditAlt.toPlainText()))
+            getStarted()
+        else:
+            import connector
+            connector.takeOffList.append(False)
 def getStarted():
     print("goT")
     time.sleep(1)
     import main
-
-def getMaxSpeed():
-    return Ui_MainWindow.getDataSpeed()
-
-def getMaxAlt():
-    return Ui_MainWindow.getDataAlt()
 
 if __name__ == "__main__":
     import sys

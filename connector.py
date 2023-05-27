@@ -1,0 +1,3 @@
+takeOffList = []
+speedList = []
+altList = []

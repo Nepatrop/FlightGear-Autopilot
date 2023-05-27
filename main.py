@@ -2,15 +2,15 @@ import time
 import GetData
 import keyboard
 from threading import Thread
-from interface import getMaxSpeed
-from interface import getMaxAlt
+import interface
+import connector
 
 mainDeg = GetData.giveDeg()
 vOne = 55
 groundLevel = GetData.giveAltitude()
 maxPitch = 15
 minPitch = -15
-takeOff = True
+takeOff = connector.takeOffList[-1]
 print("main")
 print(takeOff, "main")
 
@@ -19,7 +19,7 @@ def AutoThrust():
     while not takeOff:
         time.sleep(1)
     while takeOff:
-        maxSpeed = getMaxSpeed()
+        maxSpeed = connector.speedList[0]
         if speed < maxSpeed:
             speed = GetData.giveSpeed()
             keyboard.send("PageUp")
@@ -37,11 +37,11 @@ def AutoDeg():
         if deg == mainDeg:
             deg = GetData.giveDeg()
             time.sleep(1)
-        if (deg - mainDeg) > 2:
+        elif (deg - mainDeg) > 2:
             deg = GetData.giveDeg()
             keyboard.send("0")
             time.sleep(0.1)
-        if (deg - mainDeg) < -2:
+        elif (deg - mainDeg) < -2:
             deg = GetData.giveDeg()
             keyboard.send("Enter")
             time.sleep(0.1)
@@ -87,7 +87,7 @@ def Altitude():
     while not takeOff:
         time.sleep(1)
     while takeOff:
-        maxAltitude = getMaxAlt()
+        maxAltitude = connector.altList[0]
         speed = GetData.giveSpeed()
         if speed < vOne:
             time.sleep(1)
@@ -105,7 +105,6 @@ def Altitude():
 
         while altitude < maxAltitude:
             PitchSet(5)
-
 
 def Roll():
     maxRoll = 0
@@ -127,3 +126,4 @@ Thread(target=AutoThrust).start()
 Thread(target=AutoDeg).start()
 Thread(target=Altitude).start()
 Thread(target=Roll).start()
+takeOff = connector.takeOffList[0]
