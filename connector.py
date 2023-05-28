@@ -1,3 +1,4 @@
 takeOffList = []
 speedList = []
 altList = []
+degList = []

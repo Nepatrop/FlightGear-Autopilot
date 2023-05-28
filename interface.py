@@ -1,4 +1,6 @@
 import time
+import PyQt5
+import threading
 from PyQt5 import QtCore, QtGui, QtWidgets
 from threading import Thread
 import GetData
@@ -46,6 +48,15 @@ class Ui_MainWindow(object):
         self.KursInfo.setText(str(deg))
         self.KursInfo.setObjectName("KursInfo")
 
+        self.takeoffButton = QtWidgets.QPushButton(self.centralwidget)
+        self.button_is_checked = False
+        self.takeoffButton.setCheckable(True)
+        self.takeoffButton.clicked.connect(self.takeOffToggle)
+        self.takeoffButton.setChecked(self.button_is_checked)
+        self.takeoffButton.setGeometry(QtCore.QRect(480, 320, 110, 26))
+        self.takeoffButton.setStyleSheet("background-color: rgb(210, 210, 210);")
+        self.takeoffButton.setObjectName("takeoffButton")
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(1, 120, 231, 31))
         font = QtGui.QFont()
@@ -58,15 +69,6 @@ class Ui_MainWindow(object):
         self.label.setFont(font)
         self.label.setStyleSheet("background-color: rgb(210, 210, 210);")
         self.label.setObjectName("label")
-
-        self.takeoffButton = QtWidgets.QPushButton(self.centralwidget)
-        self.button_is_checked = False
-        self.takeoffButton.setCheckable(True)
-        self.takeoffButton.clicked.connect(self.takeOffToggle)
-        self.takeoffButton.setChecked(self.button_is_checked)
-        self.takeoffButton.setGeometry(QtCore.QRect(480, 320, 110, 26))
-        self.takeoffButton.setStyleSheet("background-color: rgb(210, 210, 210);")
-        self.takeoffButton.setObjectName("takeoffButton")
 
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(1, 155, 231, 31))
@@ -81,12 +83,28 @@ class Ui_MainWindow(object):
         self.label_4.setStyleSheet("background-color: rgb(210, 210, 210);")
         self.label_4.setObjectName("label_4")
 
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(1, 190, 231, 31))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setItalic(False)
+        font.setUnderline(False)
+        font.setWeight(75)
+        font.setStrikeOut(False)
+        font.setKerning(True)
+        self.label_5.setFont(font)
+        self.label_5.setStyleSheet("background-color: rgb(210, 210, 210);")
+        self.label_5.setObjectName("label_5")
+
         self.textEditSpd = QtWidgets.QTextEdit(self.centralwidget)
         self.textEditSpd.setGeometry(QtCore.QRect(232, 120, 120, 31))
         self.textEditSpd.setObjectName("lineSpeed")
         self.textEditAlt = QtWidgets.QTextEdit(self.centralwidget)
         self.textEditAlt.setGeometry(QtCore.QRect(232, 155, 120, 31))
         self.textEditAlt.setObjectName("lineAlt")
+        self.textEditDeg = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEditDeg.setGeometry(QtCore.QRect(232, 190, 120, 31))
+        self.textEditDeg.setObjectName("lineDeg")
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -107,9 +125,10 @@ class Ui_MainWindow(object):
         self.Alt.setText(_translate("MainWindow", "Высота:"))
         self.Kurs.setText(_translate("MainWindow", "Курс:"))
         self.VSpeed.setText(_translate("MainWindow", "Вер. Скорость:"))
-        self.label.setText(_translate("MainWindow", "Введите необходимую скорость:"))
         self.takeoffButton.setText(_translate("MainWindow", "TakeOff"))
+        self.label.setText(_translate("MainWindow", "Введите необходимую скорость:"))
         self.label_4.setText(_translate("MainWindow", "Введите необходимую высоту:"))
+        self.label_5.setText(_translate("MainWindow", "Введите необходимый курс:"))
 
     def takeOffToggle(self):
         self.button_is_checked = self.takeoffButton.isChecked()
@@ -120,16 +139,19 @@ class Ui_MainWindow(object):
             connector.takeOffList.append(True)
             connector.speedList.append(float(self.textEditSpd.toPlainText()))
             connector.altList.append(float(self.textEditAlt.toPlainText()))
+            connector.degList.append(float(self.textEditDeg.toPlainText()))
             getStarted()
         else:
             import connector
             connector.takeOffList.append(False)
+
 def getStarted():
     print("goT")
     time.sleep(1)
     import main
+    main.mainRun()
 
-if __name__ == "__main__":
+def interfaceRun():
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()

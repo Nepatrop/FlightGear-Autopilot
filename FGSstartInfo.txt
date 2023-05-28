@@ -1,6 +1,6 @@
---generic=file,out,5,C:\FlightGear-Autopilot\data\speedData.txt,output/dataOutSpeed
---generic=file,out,5,C:\FlightGear-Autopilot\data\degData.txt,output/dataOutDeg
---generic=file,out,4,C:\FlightGear-Autopilot\data\altitudeData.txt,output/dataOutAltitude
---generic=file,out,5,C:\FlightGear-Autopilot\data\pitchData.txt,output/dataOutPitch
---generic=file,out,2,C:\FlightGear-Autopilot\data\rollData.txt,output/dataOutRoll
---generic=file,out,2,C:\FlightGear-Autopilot\data\verticalSpeedData.txt,output/dataOutVerticalSpeed
+--generic=file,out,5,C:\Users\Nepatrop\Desktop\autopilot\data\speedData.txt,output/dataOutSpeed
+--generic=file,out,5,C:\Users\Nepatrop\Desktop\autopilot\data\degData.txt,output/dataOutDeg
+--generic=file,out,4,C:\Users\Nepatrop\Desktop\autopilot\data\altitudeData.txt,output/dataOutAltitude
+--generic=file,out,5,C:\Users\Nepatrop\Desktop\autopilot\data\pitchData.txt,output/dataOutPitch
+--generic=file,out,2,C:\Users\Nepatrop\Desktop\autopilot\data\rollData.txt,output/dataOutRoll
+--generic=file,out,2,C:\Users\Nepatrop\Desktop\autopilot\data\verticalSpeedData.txt,output/dataOutVerticalSpeed
