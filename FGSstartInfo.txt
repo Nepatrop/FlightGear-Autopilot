@@ -4,5 +4,3 @@
 --generic=file,out,5,C:\FlightGear-Autopilot\data\pitchData.txt,output/dataOutPitch
 --generic=file,out,2,C:\FlightGear-Autopilot\data\rollData.txt,output/dataOutRoll
 --generic=file,out,2,C:\FlightGear-Autopilot\data\verticalSpeedData.txt,output/dataOutVerticalSpeed
-
-При необходимости возможно придётся поменять путь "C:\FlightGear-Autopilot\data" до папки data.
